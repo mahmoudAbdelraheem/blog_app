@@ -2,6 +2,8 @@ import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/theme/app_theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:blog_app/features/blog/presentation/blog/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/screens/blog_screen.dart';
 import 'package:blog_app/init_dependancies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<BlogBloc>(),
       ),
     ],
     child: const MyApp(),
@@ -32,8 +37,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    super.initState();
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    super.initState();
   }
 
   @override
@@ -48,11 +53,9 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isUserLogeddIn) {
           if (isUserLogeddIn) {
-            return const Scaffold(
-              body: Center(child: Text('Home')),
-            );
+            return const BlogScreen();
           } else {
-            return const LoginScreen();
+            return const BlogScreen();
           }
         },
       ),

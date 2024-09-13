@@ -71,8 +71,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _getUserData(
-      AuthIsUserLoggedIn event, Emitter<AuthState> emit) async {
-    // emit(AuthLoading());
+    AuthIsUserLoggedIn event,
+    Emitter<AuthState> emit,
+  ) async {
     final response = await _getCurrentUserUsecase(NoParams());
     response.fold(
       (failure) => emit(AuthFailure(message: failure.message)),
